@@ -1,0 +1,83 @@
+﻿@model BL.Empleado.EmpleadoObj
+@{
+    ViewData["Title"] = "GetAll";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <section>
+        <h2>Módulo</h2>
+
+        <div class="col-md-12">
+            @using (Html.BeginForm("GetAll", "Empleado", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                <div class="row">
+
+                    <div class="col">
+                        @Html.LabelFor(model => model.Nombre)
+
+                        @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control"})
+
+                        @Html.ValidationMessageFor(model => model.Nombre, null, new {@class="text-danger"})
+                    </div>
+
+                </div>
+                <div class="col text-center">
+
+                    <input type="submit" value="Buscar" class="btn btn-info " />
+
+                </div>
+            }
+        </div>
+
+    </section>
+    <section>
+        <div class="row">
+
+            <div style="float:left;">
+                @Html.ActionLink("Agregar", "Form", "Empleado", htmlAttributes: new { @class = "btn btn-success bi bi-person-plus-fill" })
+            </div>
+        </div>
+        
+    </section>
+
+    <section>
+        @if (Model.Empleados == null)
+        {
+            <div class="alert alert-danger" role="alert">
+                @ViewBag.Message
+            </div>
+        }
+        <div class="overflow-auto">
+            <table id="dtHorizontalVerticalExample" class="table table-bordered table-responsive">
+                <thead>
+                    <tr>
+                        <td class="visually-hidden">IdEmpleado</td>
+                        <td class="text-center" style="font-weight:bold;">Nombre</td>
+                        <td class="visually-hidden">IdPuesto</td>
+                        <td class="text-center" style="font-weight:bold;">Puesto</td>
+                        <td class="visually-hidden">IdDepartamento</td>
+                        <td class="text-center" style="font-weight:bold;">Departamento</td>
+
+                        <td class="text-center" style=" font-weight:bold;">Eliminar</td>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (BL.Empleado.EmpleadoObj empleado in Model.Empleados)
+                    {
+                        <tr>
+                            <td class="visually-hidden">@empleado.IdEmpleado</td>
+                            <td class="text-center">@empleado.Nombre</td>
+                            <td class="visually-hidden">@empleado.Puesto.IdPuesto</td>
+                            <td class="text-center">@empleado.Puesto.Descripcion</td>
+                            <td class="visually-hidden">@empleado.Departamento.IdDepartamento</td>
+                            <td class="text-center">@empleado.Departamento.Descripcion</td>
+                            <td class="text-center"><a class="btn btn-danger bi bi-trash" href="@Url.Action("Delete", "Empleado", new { idEmpleado = empleado.IdEmpleado})" onclick="return confirm('Estas seguro que deseas eliminar este registro?');"></a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </section>
+</div>

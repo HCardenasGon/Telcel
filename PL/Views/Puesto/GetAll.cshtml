@@ -1,0 +1,40 @@
+﻿@model BL.Puesto.PuestoObj
+@{
+    ViewData["Title"] = "GetAll";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <section>
+        <h2>Módulo</h2>
+
+    </section>
+
+    <section>
+        @if (Model.Puestos == null)
+        {
+            <div class="alert alert-danger" role="alert">
+                @ViewBag.Message
+            </div>
+        }
+        <table class="table table-bordered table-responsive">
+            <thead>
+                <tr>
+                    <td class="hidden">IdDepartamento</td>
+                    <td class="text-center" style="font-weight:bold;">Descripcion</td>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (BL.Puesto.PuestoObj puesto in Model.Puestos)
+                {
+                    <tr>
+                        <td class="hidden">@puesto.IdPuesto</td>
+                        <td class="text-center">@puesto.Descripcion</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </section>
+</div>
